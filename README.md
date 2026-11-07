@@ -32,7 +32,8 @@ O **Conexão AgroVerde** é uma aplicação web voltada a aproximar os pequenos 
 Não é necessária nenhuma instalação complexa de compiladores ou servidores backend:
 1. Faça o clone deste repositório:
    ```bash
-   git clone https://github.com/gustavoribeiro-coder/conexao-agroverde.git
+   git clone https://github.com/gustavoribeiro-coder
+/conexao-agroverde.git
    ```
 2. Acesse a pasta do projeto:
    ```bash
@@ -40,12 +41,6 @@ Não é necessária nenhuma instalação complexa de compiladores ou servidores 
    ```
 3. Abra o arquivo `index.html` em qualquer navegador web moderno (Google Chrome, Mozilla Firefox, Microsoft Edge, Safari) com um duplo clique.
 
----
-
-## 🌐 Publicação Online (GitHub Pages)
-Acesse a aplicação em funcionamento direto no navegador:  
-👉 **[https://SEU_USUARIO.github.io/conexao-agroverde/](https://SEU_USUARIO.github.io/conexao-agroverde/)**  
-*(Substitua `SEU_USUARIO` pelo seu usuário do GitHub)*
 
 ---
 
