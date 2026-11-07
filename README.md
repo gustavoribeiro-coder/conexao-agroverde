@@ -58,4 +58,4 @@ conexao-agroverde/
 - **Programa:** UFMS Digital – Agência de Educação Digital e a Distância (AGEAD / UFMS)
 - **Código da Ação de Extensão:** 95DX7.200525
 - **Semestre:** 2026.2
-- **Luiz Gustavo Ribeiro de Souza
+- Luiz Gustavo Ribeiro de Souza
