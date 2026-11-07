@@ -1,7 +1,7 @@
 # Conexão AgroVerde 🌾🛒
 
 **Plataforma Web Dinâmica para Vitrine Digital e Gestão da Agricultura Familiar**  
-**Projeto Integrador / UFMS Digital 
+Projeto Integrador / UFMS Digital 
 *Desenvolvimento Web com Frameworks e HTML/CSS*
 
 ---
