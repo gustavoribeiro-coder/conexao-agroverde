@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conexão AgroVerde - Vitrine Digital e Gestão da Agricultura Familiar</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .modal-backdrop {
+      background-color: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- CABEÇALHO / NAVBAR -->
+  <header class="bg-emerald-800 text-white sticky top-0 z-40 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-emerald-600 p-2.5 rounded-xl shadow-inner text-amber-300">
+          <i data-lucide="sprout" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <span class="text-2xl font-black tracking-tight flex items-center gap-1">
+            Conexão <span class="text-amber-400">AgroVerde</span>
+          </span>
+          <p class="text-xs text-emerald-200 hidden sm:block">Projeto de Extensão - UFMS Digital</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <!-- Botão Abrir Cadastro de Produtor -->
+        <button id="open-register-btn" class="flex items-center gap-2 bg-emerald-700/80 hover:bg-emerald-600 text-emerald-50 px-4 py-2.5 rounded-xl font-medium text-sm transition-all shadow-sm border border-emerald-600">
+          <i data-lucide="plus-circle" class="w-4 h-4 text-amber-300"></i>
+          <span class="hidden md:inline">Cadastrar Produto</span>
+        </button>
+
+        <!-- Botão Carrinho -->
+        <button id="open-cart-btn" class="relative flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 px-4 py-2.5 rounded-xl font-bold text-sm transition-all shadow">
+          <i data-lucide="shopping-basket" class="w-5 h-5"></i>
+          <span class="hidden sm:inline">Cesta</span>
+          <span id="cart-badge" class="bg-emerald-950 text-amber-300 text-xs px-2 py-0.5 rounded-full font-extrabold ml-1">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANNER HERO -->
+  <section class="bg-gradient-to-br from-emerald-800 via-emerald-700 to-teal-800 text-white py-12 px-4 shadow-inner relative overflow-hidden">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+      <div class="max-w-2xl text-center md:text-left">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-900/50 text-emerald-200 border border-emerald-600/50 mb-4">
+          <i data-lucide="award" class="w-3.5 h-3.5 text-amber-400"></i> Alimentos 100% Agroecológicos Direto da Horta
+        </span>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
+          Apoie os produtores rurais locais de MS
+        </h1>
+        <p class="mt-4 text-emerald-100 text-base sm:text-lg leading-relaxed">
+          Sem atravessadores. Preço justo para a agricultura familiar e alimentos colhidos frescos direto na sua mesa ou comércio local.
+        </p>
+      </div>
+      <div class="bg-emerald-900/40 border border-emerald-500/30 p-6 rounded-2xl backdrop-blur-md max-w-sm w-full">
+        <h2 class="text-lg font-bold text-amber-300 mb-2 flex items-center gap-2">
+          <i data-lucide="truck" class="w-5 h-5"></i> Logística Comunitária
+        </h2>
+        <p class="text-xs text-emerald-100 leading-relaxed mb-4">
+          Faça sua encomenda online e receba diretamente no ponto de distribuição comunitário ou receba no endereço com frete solidário.
+        </p>
+        <div class="flex items-center gap-2 text-xs font-semibold text-emerald-300">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-amber-400"></i> Pedido enviado via WhatsApp direto ao cooperado
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTEÚDO PRINCIPAL: FILTROS E PRODUTOS -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div>
+        <h2 class="text-2xl font-extrabold text-slate-800">Catálogo de Alimentos Disponíveis</h2>
+        <p class="text-slate-500 text-sm mt-1">Selecione os itens frescos cadastrados pelos cooperados</p>
+      </div>
+
+      <!-- Filtro por Categoria -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0" id="category-filters">
+        <button data-cat="all" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-800 text-white transition-all shadow-sm">Todos</button>
+        <button data-cat="Hortaliças" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-slate-700 hover:bg-slate-100 transition-all border border-slate-200">Hortaliças</button>
+        <button data-cat="Frutas" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-slate-700 hover:bg-slate-100 transition-all border border-slate-200">Frutas</button>
+        <button data-cat="Tubérculos" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-slate-700 hover:bg-slate-100 transition-all border border-slate-200">Tubérculos</button>
+        <button data-cat="Derivados" class="filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-slate-700 hover:bg-slate-100 transition-all border border-slate-200">Derivados</button>
+      </div>
+    </div>
+
+    <!-- Grid de Produtos -->
+    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <!-- Inserido dinamicamente via JavaScript -->
+    </div>
+  </main>
+
+  <!-- MODAL: CADASTRAR PRODUTO (VISÃO PRODUTOR) -->
+  <div id="register-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative border border-slate-100">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 bg-emerald-100 text-emerald-800 rounded-lg">
+            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-800">Cadastrar Novo Produto Rural</h3>
+        </div>
+        <button id="close-register-btn" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="product-form" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1" for="prod-name">Nome do Produto</label>
+          <input type="text" id="prod-name" required placeholder="Ex: Alface Crespa Orgânica" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1" for="prod-category">Categoria</label>
+            <select id="prod-category" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-600 focus:outline-none bg-white">
+              <option value="Hortaliças">Hortaliças</option>
+              <option value="Frutas">Frutas</option>
+              <option value="Tubérculos">Tubérculos</option>
+              <option value="Derivados">Derivados</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1" for="prod-unit">Unidade</label>
+            <select id="prod-unit" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-600 focus:outline-none bg-white">
+              <option value="maço">Maço</option>
+              <option value="kg">Quilo (kg)</option>
+              <option value="bandeja">Bandeja</option>
+              <option value="unidade">Unidade</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1" for="prod-price">Preço Unitário (R$)</label>
+            <input type="number" id="prod-price" step="0.50" min="0.50" required placeholder="4.50" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1" for="prod-producer">Produtor / Sítio</label>
+            <input type="text" id="prod-producer" required placeholder="Ex: Sítio Boa Esperança" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1" for="prod-img">URL da Foto Ilustrativa</label>
+          <input type="url" id="prod-img" placeholder="https://images.unsplash.com/..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+          <p class="text-[11px] text-slate-400 mt-1">Opcional. Se vazio, uma imagem padrão será atribuída.</p>
+        </div>
+
+        <div class="pt-3">
+          <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+            <i data-lucide="check" class="w-4 h-4"></i> Salvar e Publicar na Vitrine
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL / DRAWER: CESTA DE COMPRAS -->
+  <div id="cart-modal" class="fixed inset-0 modal-backdrop hidden items-center justify-end z-50">
+    <div class="bg-white h-full w-full max-w-md p-6 shadow-2xl flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+          <div class="flex items-center gap-2">
+            <i data-lucide="shopping-basket" class="w-6 h-6 text-emerald-700"></i>
+            <h3 class="text-xl font-extrabold text-slate-800">Sua Cesta de Compras</h3>
+          </div>
+          <button id="close-cart-btn" class="text-slate-400 hover:text-slate-600 p-1">
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+        </div>
+
+        <!-- Lista de itens da cesta -->
+        <div id="cart-items" class="space-y-3 overflow-y-auto max-h-[55vh] pr-1">
+          <!-- Inserido dinamicamente -->
+        </div>
+      </div>
+
+      <!-- Resumo e Envio -->
+      <div class="border-t border-slate-100 pt-4 mt-4">
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-sm font-semibold text-slate-600">Total do Pedido:</span>
+          <span id="cart-total" class="text-2xl font-black text-emerald-800">R$ 0,00</span>
+        </div>
+
+        <div class="space-y-3">
+          <button id="checkout-whatsapp-btn" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+            <i data-lucide="send" class="w-5 h-5 text-amber-300"></i>
+            Finalizar Pedido via WhatsApp
+          </button>
+          <button id="clear-cart-btn" class="w-full text-xs text-rose-600 hover:underline text-center font-medium py-1">
+            Limpar cesta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RODAPÉ ACADÊMICO -->
+  <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-2">
+      <p class="font-semibold text-slate-300">UFMS Digital • Programa de Extensão Universitária (95DX7.200525)</p>
+      <p>Módulo 2: Desenvolvimento Web com Frameworks e HTML/CSS • Protótipo Funcional</p>
+      <p class="text-slate-500">Desenvolvido com Tailwind CSS, JavaScript Semântico e Ícones Lucide.</p>
+    </div>
+  </footer>
+
+  <!-- LÓGICA JAVASCRIPT DINÂMICA -->
+  <script>
+    // 1. Estado da Aplicação e Dados Iniciais
+    const initialProducts = [
+      {
+        id: 1,
+        name: "Alface Crespa Agroecológica",
+        category: "Hortaliças",
+        unit: "maço",
+        price: 3.50,
+        producer: "Sítio Primavera (Dourados)",
+        image: "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 2,
+        name: "Tomate Sweet Grape Orgânico",
+        category: "Hortaliças",
+        unit: "bandeja",
+        price: 6.00,
+        producer: "Chácara Recanto Verde",
+        image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 3,
+        name: "Mandioca Mansa Descascada",
+        category: "Tubérculos",
+        unit: "kg",
+        price: 5.00,
+        producer: "Assentamento Nova Aliança",
+        image: "https://images.unsplash.com/photo-1596097635121-14b63b7a0c19?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 4,
+        name: "Banana da Terra Climatizada",
+        category: "Frutas",
+        unit: "kg",
+        price: 7.50,
+        producer: "Sítio Vale do Sol",
+        image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 5,
+        name: "Mel Puro de Abelha Tiúba",
+        category: "Derivados",
+        unit: "unidade",
+        price: 28.00,
+        producer: "Apiário Pantaneiro",
+        image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80"
+      },
+      {
+        id: 6,
+        name: "Cenoura Nova Orgânica",
+        category: "Hortaliças",
+        unit: "kg",
+        price: 4.80,
+        producer: "Horta Familiar São José",
+        image: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=600&q=80"
+      }
+    ];
+
+    let products = JSON.parse(localStorage.getItem('agroverde_products')) || initialProducts;
+    let cart = JSON.parse(localStorage.getItem('agroverde_cart')) || [];
+    let currentFilter = 'all';
+
+    // 2. Elementos do DOM
+    const productsGrid = document.getElementById('products-grid');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartBadge = document.getElementById('cart-badge');
+    const cartTotalEl = document.getElementById('cart-total');
+    const cartModal = document.getElementById('cart-modal');
+    const registerModal = document.getElementById('register-modal');
+
+    // 3. Renderização de Produtos
+    function renderProducts() {
+      productsGrid.innerHTML = '';
+      const filtered = currentFilter === 'all' 
+        ? products 
+        : products.filter(p => p.category === currentFilter);
+
+      if (filtered.length === 0) {
+        productsGrid.innerHTML = `
+          <div class="col-span-full text-center py-12 text-slate-400">
+            <i data-lucide="package-search" class="w-12 h-12 mx-auto mb-2 text-slate-300"></i>
+            <p>Nenhum produto cadastrado nesta categoria.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      filtered.forEach(p => {
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 border border-slate-100 flex flex-col justify-between";
+        card.innerHTML = `
+          <div>
+            <div class="h-44 w-full overflow-hidden bg-slate-100 relative">
+              <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+              <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-bold text-emerald-800 shadow-sm border border-slate-100">
+                ${p.category}
+              </span>
+            </div>
+            <div class="p-4">
+              <span class="text-[11px] text-slate-400 font-medium flex items-center gap-1 mb-1">
+                <i data-lucide="map-pin" class="w-3 h-3 text-emerald-600"></i> ${p.producer}
+              </span>
+              <h3 class="font-bold text-slate-800 text-base leading-snug line-clamp-1">${p.name}</h3>
+              <p class="text-xs text-slate-500 mt-1">Unidade: <span class="font-semibold text-slate-700">${p.unit}</span></p>
+            </div>
+          </div>
+          <div class="px-4 pb-4 pt-2 border-t border-slate-50 flex items-center justify-between">
+            <div>
+              <span class="text-xs text-slate-400 block font-medium">Preço</span>
+              <span class="text-lg font-black text-emerald-700">R$ ${p.price.toFixed(2).replace('.', ',')}</span>
+            </div>
+            <button onclick="addToCart(${p.id})" class="bg-emerald-700 hover:bg-emerald-600 active:scale-95 text-white p-2.5 rounded-xl transition shadow flex items-center justify-center">
+              <i data-lucide="plus" class="w-5 h-5"></i>
+            </button>
+          </div>
+        `;
+        productsGrid.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    // 4. Gerenciamento do Carrinho
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      const existing = cart.find(item => item.id === productId);
+
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      saveCart();
+      updateCartUI();
+    }
+
+    function changeQuantity(productId, delta) {
+      const item = cart.find(i => i.id === productId);
+      if (!item) return;
+
+      item.quantity += delta;
+      if (item.quantity <= 0) {
+        cart = cart.filter(i => i.id !== productId);
+      }
+
+      saveCart();
+      updateCartUI();
+    }
+
+    function saveCart() {
+      localStorage.setItem('agroverde_cart', JSON.stringify(cart));
+    }
+
+    function updateCartUI() {
+      const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartBadge.textContent = totalCount;
+
+      const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      cartTotalEl.textContent = `R$ ${totalPrice.toFixed(2).replace('.', ',')}`;
+
+      cartItemsContainer.innerHTML = '';
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = `
+          <div class="text-center py-12 text-slate-400">
+            <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto mb-2 text-slate-300"></i>
+            <p class="text-sm">Sua cesta está vazia.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      cart.forEach(item => {
+        const itemEl = document.createElement('div');
+        itemEl.className = "flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-200/70";
+        itemEl.innerHTML = `
+          <div class="max-w-[170px]">
+            <h4 class="font-bold text-xs text-slate-800 truncate">${item.name}</h4>
+            <p class="text-[11px] text-slate-500">R$ ${item.price.toFixed(2).replace('.', ',')} / ${item.unit}</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="changeQuantity(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-slate-600 hover:bg-slate-100 font-bold text-xs">-</button>
+            <span class="text-xs font-bold text-slate-800 w-4 text-center">${item.quantity}</span>
+            <button onclick="changeQuantity(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-white border border-slate-300 flex items-center justify-center text-slate-600 hover:bg-slate-100 font-bold text-xs">+</button>
+          </div>
+        `;
+        cartItemsContainer.appendChild(itemEl);
+      });
+
+      lucide.createIcons();
+    }
+
+    // 5. Envio de Pedido via WhatsApp
+    document.getElementById('checkout-whatsapp-btn').addEventListener('click', () => {
+      if (cart.length === 0) {
+        alert("Sua cesta está vazia! Adicione produtos antes de finalizar.");
+        return;
+      }
+
+      let message = "🌱 *Novo Pedido - Conexão AgroVerde*%0A%0A";
+      let total = 0;
+
+      cart.forEach(item => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        message += `• *${item.quantity}x* ${item.name} (${item.unit}) - R$ ${subtotal.toFixed(2).replace('.', ',')}%0A`;
+        message += `  _Produtor: ${item.producer}_%0A`;
+      });
+
+      message += `%0A💰 *Total do Pedido: R$ ${total.toFixed(2).replace('.', ',')}*%0A`;
+      message += "📍 Solicito confirmação para retirada no ponto de distribuição ou entrega solidária.";
+
+      const whatsappUrl = `https://wa.me/5567999999999?text=${message}`;
+      window.open(whatsappUrl, '_blank');
+    });
+
+    // 6. Cadastro de Novo Produto
+    document.getElementById('product-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('prod-name').value;
+      const category = document.getElementById('prod-category').value;
+      const unit = document.getElementById('prod-unit').value;
+      const price = parseFloat(document.getElementById('prod-price').value);
+      const producer = document.getElementById('prod-producer').value;
+      const imageInput = document.getElementById('prod-img').value;
+
+      const defaultImages = {
+        'Hortaliças': 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80',
+        'Frutas': 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&fit=crop&w=600&q=80',
+        'Tubérculos': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80',
+        'Derivados': 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80'
+      };
+
+      const newProduct = {
+        id: Date.now(),
+        name,
+        category,
+        unit,
+        price,
+        producer,
+        image: imageInput.trim() !== '' ? imageInput : defaultImages[category]
+      };
+
+      products.unshift(newProduct);
+      localStorage.setItem('agroverde_products', JSON.stringify(products));
+      renderProducts();
+
+      document.getElementById('product-form').reset();
+      registerModal.classList.add('hidden');
+      registerModal.classList.remove('flex');
+    });
+
+    // 7. Filtros por Categoria
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.className = "filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-white text-slate-700 hover:bg-slate-100 transition-all border border-slate-200";
+        });
+
+        e.currentTarget.className = "filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-800 text-white transition-all shadow-sm";
+        currentFilter = e.currentTarget.getAttribute('data-cat');
+        renderProducts();
+      });
+    });
+
+    // 8. Controles de Modais
+    document.getElementById('open-register-btn').addEventListener('click', () => {
+      registerModal.classList.remove('hidden');
+      registerModal.classList.add('flex');
+    });
+
+    document.getElementById('close-register-btn').addEventListener('click', () => {
+      registerModal.classList.add('hidden');
+      registerModal.classList.remove('flex');
+    });
+
+    document.getElementById('open-cart-btn').addEventListener('click', () => {
+      cartModal.classList.remove('hidden');
+      cartModal.classList.add('flex');
+    });
+
+    document.getElementById('close-cart-btn').addEventListener('click', () => {
+      cartModal.classList.add('hidden');
+      cartModal.classList.remove('flex');
+    });
+
+    document.getElementById('clear-cart-btn').addEventListener('click', () => {
+      cart = [];
+      saveCart();
+      updateCartUI();
+    });
+
+    // Inicialização
+    renderProducts();
+    updateCartUI();
+    lucide.createIcons();
+  </script>
+</body>
+</html>
