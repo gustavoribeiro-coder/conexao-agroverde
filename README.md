@@ -1,8 +1,8 @@
 # Conexão AgroVerde 🌾🛒
 
 **Plataforma Web Dinâmica para Vitrine Digital e Gestão da Agricultura Familiar**  
-Atividade Curricular Obrigatória – **Projeto Integrador / Ação de Extensão UFMS Digital (95DX7.200525)**  
-*Módulo 2: Desenvolvimento Web com Frameworks e HTML/CSS*
+**Projeto Integrador / UFMS Digital 
+*Desenvolvimento Web com Frameworks e HTML/CSS*
 
 ---
 
@@ -58,3 +58,4 @@ conexao-agroverde/
 - **Programa:** UFMS Digital – Agência de Educação Digital e a Distância (AGEAD / UFMS)
 - **Código da Ação de Extensão:** 95DX7.200525
 - **Semestre:** 2026.2
+- **Luiz Gustavo Ribeiro de Souza
