@@ -1,13 +1,13 @@
 # EaD UFMS DIGITAL - AGÊNCIA DE EDUCAÇÃO DIGITAL E A DISTÂNCIA (AGEAD)
-## TEMPLATE DO ESTUDANTE: Desenvolvimento Web com frameworks e HTML/CSS
-### AVALIAÇÃO DO MÓDULO 2 - Desenvolvimento Web com frameworks e HTML/CSS
+## Desenvolvimento Web com frameworks e HTML/CSS
+### Desenvolvimento Web com frameworks e HTML/CSS
 
 ---
 
-**Projeto de Extensão:** Programa de Extensão UFMS Digital (95DX7.200525)  
+**Programa de Extensão UFMS Digital   
 **Semestre letivo:** 2026.2  
 **Público-alvo:** Pequenos produtores rurais, hortigranjeiros familiares, cooperativas agrícolas e consumidores do comércio local de Mato Grosso do Sul.  
-**Local de realização:** Município de realização das ações de extensão e ambiente web digital.  
+**Local de realização:**Dourados - MS.  
 **Título da ação:** CONEXÃO AGROVERDE: VITRINE DIGITAL E PLATAFORMA WEB DINÂMICA PARA GESTÃO E COMERCIALIZAÇÃO DIRETA DA AGRICULTURA FAMILIAR  
 
 ---
