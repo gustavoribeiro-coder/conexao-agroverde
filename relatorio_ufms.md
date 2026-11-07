@@ -64,8 +64,8 @@ O desenvolvimento web contemporâneo baseia-se na separação coesa entre conte�
 - Repositório criado e versionado no GitHub com ramificação principal `main`.
 - Documentação técnica consolidada no arquivo `README.md` contendo guia de instalação, arquitetura utilizada e demonstração de uso.
 - Deploy ativo no serviço GitHub Pages.
-- **Link do Repositório no GitHub:** `https://github.com/SEU_USUARIO/conexao-agroverde`
-- **Link da Aplicação em Produção (GitHub Pages):** `https://SEU_USUARIO.github.io/conexao-agroverde/`
+- **Link do Repositório no GitHub:** `https://github.com/gustavoribeiro-coder/conexao-agroverde`
+- **Link da Aplicação em Produção (GitHub Pages):** `https://gustavoribeiro-coder.github.io/conexao-agroverde/`
 
 ---
 
