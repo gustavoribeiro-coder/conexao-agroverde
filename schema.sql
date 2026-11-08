@@ -1,5 +1,5 @@
 -- ============================================================
--- PROJETO DE EXTENSÃO UFMS DIGITAL (95DX7.200525)
+-- PROJETO DE EXTENSÃO UFMS DIGITAL 
 -- PLATAFORMA CONEXÃO AGROVERDE - ESQUEMA DO BANCO DE DADOS
 -- ============================================================
 
